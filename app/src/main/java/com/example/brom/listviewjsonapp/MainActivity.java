@@ -1,9 +1,11 @@
 package com.example.brom.listviewjsonapp;
 
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +17,7 @@ import java.net.URL;
 
 // Create a new class, Mountain, that can hold your JSON data
 
-// Create a ListView as in "Assignment 1 - Toast and ListView"
+// Create a ListView as in "Assignment 2 - Toast and ListView"
 
 // Retrieve data from Internet service using AsyncTask and the included networking code
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
     private class FetchData extends AsyncTask<Void,Void,String>{
         @Override
         protected String doInBackground(Void... params) {
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 // Construct the URL for the Internet service
-                URL url = new URL("_ENTER_THE_URL_TO_THE_PHP_SERVICE_SERVING_JSON_HERE_");
+                URL url = new URL("http://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
 
                 // Create the request to the PHP-service, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
         }
         @Override
         protected void onPostExecute(String o) {
@@ -101,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Implement a parsing code that loops through the entire JSON and creates objects
             // of our newly created Mountain class.
+
+            TextView textView = findViewById(R.id.test);
+            textView.setText(o);
         }
     }
 }
