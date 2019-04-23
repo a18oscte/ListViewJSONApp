@@ -5,7 +5,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +20,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 
 // Create a new class, Mountain, that can hold your JSON data
@@ -23,7 +32,7 @@ import java.net.URL;
 
 // Parse the retrieved JSON and update the ListView adapter
 
-// Implement a "refresh" functionality using Android's menu system
+// Implement a "refresh" functionality using Android's menu_main system
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +41,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        List<String> listData = new ArrayList<>();
+
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_refresh){
+            new FetchData().execute();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     private class FetchData extends AsyncTask<Void,Void,String>{
         @Override
@@ -106,8 +139,22 @@ public class MainActivity extends AppCompatActivity {
             // Implement a parsing code that loops through the entire JSON and creates objects
             // of our newly created Mountain class.
 
-            TextView textView = findViewById(R.id.test);
-            textView.setText(o);
+
+            try {
+                JSONObject json1 = new JSONObject(o);
+                JSONArray a = json1.getJSONArray("");
+
+                String name = a.getString(1);
+
+                TextView textView = findViewById(R.id.test);
+                textView.setText(name);
+
+            }catch (JSONException e) {
+                Log.e("brom", "E:" + e.getMessage());
+            }
+
+
+
         }
     }
 }
