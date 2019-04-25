@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 public class MountainDetailsActivity extends AppCompatActivity {
 
-    private ImageView Bild;
-    private int vBild;
 
 
     @Override
@@ -18,26 +16,16 @@ public class MountainDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mountain_details);
 
-
+        ImageView Bild;
         Intent intent = getIntent();
-        //String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        //String Title = intent.getStringExtra(MainActivity.EXTRA_MESSAGE2);
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String Title = intent.getStringExtra(MainActivity.EXTRA_MESSAGE2);
         TextView textView = findViewById(R.id.namn);
-        //textView.setText(message);
-        //setTitle(Title);
-        Bild = (ImageView)findViewById(R.id.bild);
+        textView.setText(message);
+        setTitle(Title);
+        Bild = (ImageView)findViewById(R.id.imageView);
 
-        /*if(Title.equals("Kebnekaise")){
-            vBild = R.drawable.kebenikasie;
-        }else if(Title.equals("Matterhorn")){
-            vBild = R.drawable.matterhorn;
-        }else if(Title.equals("Mont Blanc")){
-            vBild = R.drawable.montblanc;
-        }else if(Title.equals("Denali")){
-            vBild = R.drawable.denali;
-        }
 
-        Bild.setImageResource(vBild);*/
 
     }
 }

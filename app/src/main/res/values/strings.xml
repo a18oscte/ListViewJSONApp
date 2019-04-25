@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">a18oscte - assignment 4</string>
     <string name="action_refresh">Refresh</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="activityNamn">Main2Activity</string>
 </resources>
