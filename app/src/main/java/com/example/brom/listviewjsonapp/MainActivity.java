@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "MESSAGE";
     public static final String EXTRA_MESSAGE2 = "MESSAGE2";
+    public static final String EXTRA_MESSAGE3 = "MESSAGE3";
+    public static final String EXTRA_MESSAGE4 = "MESSAGE4";
 
 
     @Override
@@ -158,7 +160,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String message = mountainArr.get(position).info();
                     String Title = mountainArr.get(position).namn();
-                    launchSecondActivity(view, message, Title);
+                    String url = mountainArr.get(position).img();
+                    String u = mountainArr.get(position).ur();
+                    launchSecondActivity(view, message, Title, url, u);
                 }
             });
             // This code executes after we have received our data. The String object o holds
@@ -177,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray arr = new JSONArray("["+json1.getString("auxdata")+ "]");
                     JSONObject img = (JSONObject) arr.get(0);
 
-                    Mountain m = new Mountain(json1.getInt("ID"),json1.getString("name"),json1.getString("type"), json1.getString("location"), json1.getInt("size"), img.getString("img"),img.getString("url") );
+                    Mountain m = new Mountain(json1.getString("name"),json1.getString("location"), json1.getInt("size"), img.getString("img"),img.getString("url") );
                     mountainArr.add(m);
 
                     listData.add(mountainArr.get(i).namn());
@@ -196,10 +200,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void launchSecondActivity(View view, String n, String t) {
+    public void launchSecondActivity(View view, String n, String t, String u, String ur) {
         Intent intent = new Intent(this, MountainDetailsActivity.class);
         intent.putExtra(EXTRA_MESSAGE, n);
         intent.putExtra(EXTRA_MESSAGE2, t);
+        intent.putExtra(EXTRA_MESSAGE3, u);
+        intent.putExtra(EXTRA_MESSAGE4, ur);
         startActivity(intent);
 
 
