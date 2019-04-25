@@ -138,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Implement a parsing code that loops through the entire JSON and creates objects
             // of our newly created Mountain class.
-
+            TextView textView = findViewById(R.id.test);
+            textView.setText(o);
 
             try {
                 JSONObject json1 = new JSONObject(o);
@@ -146,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
                 String name = a.getString(1);
 
-                TextView textView = findViewById(R.id.test);
-                textView.setText(name);
 
             }catch (JSONException e) {
                 Log.e("brom", "E:" + e.getMessage());
