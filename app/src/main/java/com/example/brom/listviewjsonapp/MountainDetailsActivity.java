@@ -8,12 +8,19 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.InputStream;
 
 public class MountainDetailsActivity extends AppCompatActivity {
+
+
 
 
 
@@ -28,6 +35,9 @@ public class MountainDetailsActivity extends AppCompatActivity {
         String Title = intent.getStringExtra(MainActivity.EXTRA_MESSAGE2);
         String bild = intent.getStringExtra(MainActivity.EXTRA_MESSAGE3);
         String url = intent.getStringExtra(MainActivity.EXTRA_MESSAGE4);
+
+        WebView myWebView = (WebView) findViewById(R.id.webView);
+
         TextView textView = findViewById(R.id.andra);
         TextView textView2 = findViewById(R.id.namn);
         TextView textView3 = findViewById(R.id.lank);
@@ -38,6 +48,25 @@ public class MountainDetailsActivity extends AppCompatActivity {
         Bild = (ImageView)findViewById(R.id.imageView);
 
         new DownloadImageTask(Bild) .execute(bild);
+
+
+
+
+
+        textView3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                WebView myWebView = (WebView) findViewById(R.id.webView);
+                Intent intent = getIntent();
+                String url = intent.getStringExtra(MainActivity.EXTRA_MESSAGE4);
+                myWebView.loadUrl(url);
+            }
+        });
+
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        myWebView.setWebChromeClient(new WebChromeClient());
+        myWebView.setWebViewClient(new WebViewClient());
 
 
 
