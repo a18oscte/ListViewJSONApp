@@ -27,6 +27,15 @@ public class Mountain {
         return name;
     }
 
+    public String loc(){
+        return location;
+    }
+
+    public String hei(){
+        String he = height + " Meters";
+        return he;
+    }
+
     public String img(){
         return bild;
     }

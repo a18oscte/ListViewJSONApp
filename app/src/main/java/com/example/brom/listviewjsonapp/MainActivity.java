@@ -1,14 +1,17 @@
 package com.example.brom.listviewjsonapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -143,19 +146,58 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String o) {
             super.onPostExecute(o);
 
-            List<String> listData = new ArrayList<>();
             final ArrayList<Mountain> mountainArr = new ArrayList();
 
+            class lista {
+                public String name;
+                public String lo;
+                public String heigth;
+
+                public lista(String name,String lo, String heigth) {
+                    this.name = name;
+                    this.lo = lo;
+                    this.heigth = heigth;
+                }
+            }
+
+            class UsersAdapter extends ArrayAdapter<lista> {
+                public UsersAdapter(Context context, ArrayList<lista> users) {
+                    super(context, 0, users);
+                }
+
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    // Get the data item for this position
+                    lista user = getItem(position);
+                    // Check if an existing view is being reused, otherwise inflate the view
+                    if (convertView == null) {
+                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_textview, parent, false);
+                    }
+                    // Lookup view for data population
+                    TextView tvn = (TextView) convertView.findViewById(R.id.list_item_textview);
+                    TextView tvl = (TextView) convertView.findViewById(R.id.list_item_textview2);
+                    TextView tvh = (TextView) convertView.findViewById(R.id.list_item_textview3);
+                    // Populate the data into the template view using the data object
+                    tvn.setText(user.name);
+                    tvl.setText(user.lo);
+                    tvh.setText(user.heigth);
+                    // Return the completed view to render on screen
+                    return convertView;
+                }
+            }
+
+            // Construct the data source
+            ArrayList<lista> arrayOfUsers = new ArrayList<lista>();
+// Create the adapter to convert the array to views
+            UsersAdapter adapter = new UsersAdapter(getApplicationContext(), arrayOfUsers);
+// Attach the adapter to a ListView
+            ListView listView = (ListView) findViewById(R.id.my_listview);
+            listView.setAdapter(adapter);
 
 
-            ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.list_item_textview, listData);
-
-            ListView myListView = (ListView)findViewById(R.id.my_listview);
-
-            myListView.setAdapter(adapter);
 
 
-            myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String message = mountainArr.get(position).info();
@@ -184,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
                     Mountain m = new Mountain(json1.getString("name"),json1.getString("location"), json1.getInt("size"), img.getString("img"),img.getString("url") );
                     mountainArr.add(m);
 
-                    listData.add(mountainArr.get(i).namn());
-
+                    lista newUser = new lista(mountainArr.get(i).namn(), mountainArr.get(i).loc(), mountainArr.get(i).hei());
+                    adapter.add(newUser);
 
                 }
 
@@ -212,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 }
 
